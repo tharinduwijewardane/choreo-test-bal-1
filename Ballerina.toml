@@ -1,0 +1,8 @@
+[package]
+org = "tharinduwijewardane"
+name = "choreo_test_bal_1"
+version = "0.1.0"
+distribution = "2201.2.3"
+
+[build-options]
+observabilityIncluded = true
