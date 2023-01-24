@@ -1,0 +1,9 @@
+[build-options]
+  observabilityIncluded = true
+
+[package]
+  distribution = "2201.3.1"
+  name = "jan24_1"
+  org = "tharinduwijewardane"
+  version = "0.1.0"
+
