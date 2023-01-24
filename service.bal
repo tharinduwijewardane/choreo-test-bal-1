@@ -1,17 +1,19 @@
+import ballerina/log;
 import ballerina/http;
 
-# A service representing a network-accessible API
-# bound to port `9090`.
-service / on new http:Listener(9090) {
+type Greeting record {
+    string 'from;
+    string to;
+    string message;
+};
 
-    # A resource for generating greetings
-    # + name - the input string name
-    # + return - string name with hello message or error
-    resource function get greeting(string name) returns string|error {
-        // Send a response back to the caller.
-        if name is "" {
-            return error("name should not be empty!");
-        }
-        return "Hello, " + name;
+service / on new http:Listener(8090) {
+    resource function get .(string name) returns Greeting|error {
+        http:Client httpEp = check new (url = "http://reqres.in/api/users?page=2");
+        record {} getResponse = check httpEp->get(path = "");
+        log:printDebug(getResponse.toBalString());
+        log:printInfo("tttt");
+        Greeting greetingMessage = {"from": "Choreo", "to": name, "message": "Welcome to Choreo!"};
+        return greetingMessage;
     }
 }
