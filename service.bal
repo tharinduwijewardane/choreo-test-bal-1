@@ -1,17 +1,20 @@
+import ballerina/log;
 import ballerina/http;
 
-# A service representing a network-accessible API
-# bound to port `9090`.
-service / on new http:Listener(9090) {
+configurable string SERVICE_2_URL = ?;
 
-    # A resource for generating greetings
-    # + name - the input string name
-    # + return - string name with hello message or error
+service / on new http:Listener(9091) {
+
     resource function get greeting(string name) returns string|error {
-        // Send a response back to the caller.
         if name is "" {
             return error("name should not be empty!");
         }
-        return "Hello, " + name;
+        log:printInfo("received name to svc 1 is " + name);
+
+        http:Client cl = check new (SERVICE_2_URL);
+
+        http:Response re = <http:Response>check cl->/greeting(name = name);
+
+        return "from chain: " + check re.getTextPayload();
     }
 }
