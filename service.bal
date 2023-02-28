@@ -6,7 +6,9 @@ service / on new http:Listener(9092) {
     resource function get greeting(http:Caller caller, http:Request req) returns error? {
 
         log:printInfo(req.getHeaderNames().toString());
-        log:printInfo("uber-trace-id header value is " + check req.getHeader("uber-trace-id"));
+        log:printInfo("X-B3-TraceId header value is " + check req.getHeader("X-B3-TraceId"));
+        log:printInfo("X-B3-SpanId header value is " + check req.getHeader("X-B3-SpanId"));
+        log:printInfo("X-B3-Sampled header value is " + check req.getHeader("X-B3-Sampled"));
         string name = req.getQueryParamValue("name").toString();
         if name is "" {
             return error("name should not be empty!");
